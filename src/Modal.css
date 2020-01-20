@@ -4,14 +4,38 @@
     left: 25%;
     width:50%;
     height: 50%;
-    background: gray;
+    background: white;
+    border: 2px solid black;
+    border-radius: 8px;
     z-index: 1;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+}
+
+.modalTitle {
+    text-align: center;
+    background-color: green;
+    margin: 0;
 }
 
 .modalCloseButton {
     width: 50px;
     margin: 8px;
     align-self: flex-end;
+}
+
+.modalSingleItem {
+    margin: 8px;
+    background-color: green;
+}
+
+.modalSingleItemImage {
+    height: 120px;
+    margin: 8px;
+}
+
+.modalTotal {
+    text-align: center;
+    margin: 0;
 }
