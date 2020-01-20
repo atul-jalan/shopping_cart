@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Card from './Card.js';
 
 const App = () => {
   const [data, setData] = useState({});
@@ -14,7 +15,7 @@ const App = () => {
 
   return (
     <ul>
-      {products.map(product => <li key={product.sku}>{product.title}</li>)}
+      {products.map(product => <Card key={product.sku} product={product} />)}
     </ul>
   );
 };

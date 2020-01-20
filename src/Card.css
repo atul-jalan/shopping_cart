@@ -1,0 +1,28 @@
+.card {
+    float: left;
+    width: 24%;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 8px;
+}
+
+.cardTitle {
+    text-align: center;
+}
+
+.cardSubtitle {
+    text-align: center;
+}
+
+.cardSizes {
+    width: 100%;
+    text-align: center;
+}
+.cardSizeButton {
+    margin: 8px;
+    border: none;
+    border-radius: 4px;
+    width: 50px;
+    background-color: black;
+    color: white;
+}
