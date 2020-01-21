@@ -10,10 +10,14 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]); // made up of [product, size, num]
   const [total, setTotal] = useState(0);
 
+  const [inventory, setInventory] = useState([]);
+
   const addToCart = (product, size) => {
     let tempCartItems = JSON.parse(JSON.stringify(cartItems));
     
     let alreadyInCart = false;
+
+
 
     for (let i = 0; i < tempCartItems.length; i++){
       if (tempCartItems[i][0].sku === product.sku && tempCartItems[i][1] === size){
@@ -27,6 +31,23 @@ const App = () => {
       tempCartItems.push([product, size, 1]);
     }
 
+    const tempInventory = JSON.parse(JSON.stringify(inventory));
+    for (let i = 0; i < tempInventory.length; i++){
+      if (tempInventory[i][0] == product.sku){
+        if (size === "Small"){
+          tempInventory[i][1][0] = tempInventory[i][1][0] - 1;
+        } else if (size === "Medium"){
+          tempInventory[i][1][1] = tempInventory[i][1][1] - 1;
+        } else if (size === "Large"){
+          tempInventory[i][1][2] = tempInventory[i][1][2] - 1;
+        } else if (size === "Extra Large"){
+          tempInventory[i][1][3] = tempInventory[i][1][3] - 1;
+        }
+        break;
+      }
+    }
+
+    setInventory(tempInventory);
     setCartItems(tempCartItems);
     setTotal(total + product.price);
     setCartIsOpen(true);
@@ -37,19 +58,53 @@ const App = () => {
     let tempCartItems = JSON.parse(JSON.stringify(cartItems));
 
     for (let i = 0; i < tempCartItems.length; i++){
-      if (tempCartItems[i][0].sku === item[0].sku && tempCartItems[i][1] === item[1]){
+      if (tempCartItems[i][0].sku == item[0].sku && tempCartItems[i][1] === item[1]){
 
+        const tempInventory = JSON.parse(JSON.stringify(inventory));
+        for (let j = 0; j < tempInventory.length; j++){
+          if (tempInventory[j][0] == item[0].sku){
+            const changeInQuantity = quantity - tempCartItems[i][2];
+            if (item[1] === "Small"){
+              if (changeInQuantity > tempInventory[j][1][0]){
+                quantity = tempCartItems[i][2] + tempInventory[j][1][0];
+                tempInventory[j][1][0] = 0;
+              } else {
+                tempInventory[j][1][0] = tempInventory[j][1][0] - changeInQuantity;
+              }
+            } else if (item[1] === "Medium"){
+              if (changeInQuantity > tempInventory[j][1][1]){
+                quantity = tempCartItems[i][2] + tempInventory[j][1][1];
+                tempInventory[j][1][1] = 0;
+              } else {
+                tempInventory[j][1][1] = tempInventory[j][1][1] - changeInQuantity;
+              }
+            } else if (item[1] === "Large"){
+              if (changeInQuantity > tempInventory[j][1][2]){
+                quantity = tempCartItems[i][2] + tempInventory[j][1][2];
+                tempInventory[j][1][2] = 0;
+              } else {
+                tempInventory[j][1][2] = tempInventory[j][1][2] - changeInQuantity;
+              }
+            } else if (item[1] === "Extra Large"){
+              if (changeInQuantity > tempInventory[j][1][3]){
+                quantity = tempCartItems[i][2] + tempInventory[j][1][3];
+                tempInventory[j][1][3] = 0;
+              } else {
+                tempInventory[j][1][3] = tempInventory[j][1][3] - changeInQuantity;
+              }
+            }
+            break;
+          }
+        }
+        setInventory(tempInventory);
         const changeInPrice = item[0].price * (quantity - tempCartItems[i][2]);
         setTotal(total + changeInPrice);
-
         if (quantity == 0){ 
           tempCartItems.splice(i, 1);
         } else {
           tempCartItems[i][2] = quantity;
         }
-        
         setCartItems(tempCartItems);
-        return;
       }
     }
   }
@@ -61,6 +116,15 @@ const App = () => {
       const response = await fetch('./data/products.json');
       const json = await response.json();
       setData(json);
+
+      const inventoryResponse = await fetch('./data/inventory.json');
+      const inventoryJSON = await inventoryResponse.json();
+
+      const tempStock = [];
+      for(var keys in inventoryJSON){
+        tempStock.push([keys, [inventoryJSON[keys].S, inventoryJSON[keys].M, inventoryJSON[keys].L, inventoryJSON[keys].XL]])
+      }
+      setInventory(tempStock);
     };
     fetchProducts();
   }, []);
@@ -74,7 +138,7 @@ const App = () => {
         <button className="openModalButton" onClick={() => cartIsOpen === true ? setCartIsOpen(false):setCartIsOpen(true)}>Cart</button>
       </div>
       <div className="appUL">
-        {products.map(product => <Card key={product.sku} product={product} addToCart={addToCart} />)}
+        {products.map(product => <Card key={product.sku} product={product} addToCart={addToCart} inventory={inventory.find(singleInventory => singleInventory[0] == product.sku)} />)}
       </div>
     </div>
   )

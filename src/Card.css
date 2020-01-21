@@ -25,14 +25,15 @@
 
 .cardSizes {
     width: 100%;
+    min-height: 60px;
     text-align: center;
 }
 .cardSizeButton {
     margin: 8px;
     border: none;
     border-radius: 4px;
-    width: 100px;
-    font-size: 20px;
+    width: 130px;
+    font-size: 18px;
     background-color: var(--darker-blue);
     color: white;
 }

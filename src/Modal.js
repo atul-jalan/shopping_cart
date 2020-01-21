@@ -23,14 +23,18 @@ const SingleItem = ({item, setNewQuantity}) => {
     const [itemQuantity, setItemQuantity] = useState(item[2]);
 
     useEffect(() => {
-        if (itemQuantity.toString() === "") {return};
-
-        if (itemQuantity < 0){
+        if (itemQuantity === "") {return};
+        const passedValue = parseInt(itemQuantity);
+        if (passedValue < 0){
             setNewQuantity(item, 0);
         } else {
-            setNewQuantity(item, itemQuantity);
+            setNewQuantity(item, passedValue);
         }
     }, [itemQuantity])
+
+    useEffect(() => {
+        setItemQuantity(item[2]);
+    }, [item])
 
     return (
         <div className="modalSingleItem">
