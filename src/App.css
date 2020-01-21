@@ -1,5 +1,41 @@
-.App {
-  text-align: center;
+.app {
+  margin: 0;
+}
+.appBanner {
+  background-color: var(--pastel-blue);
+  width: calc(100% - 32px);
+  height: 70px;
+  margin: auto;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: row;
+}
+.appBannerTitle {
+  font-family: var(--title);
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 16px;
+  font-size: 40px;
+  color: white;
+  flex: 1;
+}
+.openModalButton {
+  border: none;
+  border-radius: 4px;
+  font-size: 20px;
+  background-color: var(--darker-blue);
+  color: white;
+  height: 40px;
+  width: 100px;
+  margin: auto;
+  margin-right: 16px;
+}
+.openModalButton:hover {
+  background-color: var(--text-color);
+  transition: .1s background-color linear;
+}
+.appUL {
+  margin: auto;
 }
 
 .App-logo {

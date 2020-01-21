@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Philosopher:700|Montserrat:400|Nunito:400,700&display=swap');
+
+:root {
+    --background: #e1e8ed;
+    --pastel-blue: #6b8ca6;
+    --darker-blue: #4a456a;
+    --text-color: #090d11;
+
+    --logo: 'Philosopher';
+    --title: 'Montserrat';
+    --text: 'Nunito';
+}

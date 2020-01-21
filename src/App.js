@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Card.js';
 import Modal from './Modal.js';
+import './Global.css';
+import './App.css';
 
 const App = () => {
 
@@ -30,6 +32,28 @@ const App = () => {
     setCartIsOpen(true);
   }
 
+  const setNewQuantity = (item, quantity) => {
+
+    let tempCartItems = JSON.parse(JSON.stringify(cartItems));
+
+    for (let i = 0; i < tempCartItems.length; i++){
+      if (tempCartItems[i][0].sku === item[0].sku && tempCartItems[i][1] === item[1]){
+
+        const changeInPrice = item[0].price * (quantity - tempCartItems[i][2]);
+        setTotal(total + changeInPrice);
+
+        if (quantity == 0){ 
+          tempCartItems.splice(i, 1);
+        } else {
+          tempCartItems[i][2] = quantity;
+        }
+        
+        setCartItems(tempCartItems);
+        return;
+      }
+    }
+  }
+
   const [data, setData] = useState({});
   const products = Object.values(data);
   useEffect(() => {
@@ -43,11 +67,15 @@ const App = () => {
 
   return (
     <div>
-      <button className="openModalButton" onClick={() => cartIsOpen === true ? setCartIsOpen(false):setCartIsOpen(true)}>Cart</button>
-      {cartIsOpen === true ? <Modal setCartIsOpen={setCartIsOpen} cartItems={cartItems} total={total} />:null}
-      <ul>
+      {cartIsOpen === true ? <Modal setCartIsOpen={setCartIsOpen} cartItems={cartItems} total={total} setNewQuantity={setNewQuantity} />:null}
+
+      <div className="appBanner">
+        <h1 className="appBannerTitle">Jalan Cart</h1>
+        <button className="openModalButton" onClick={() => cartIsOpen === true ? setCartIsOpen(false):setCartIsOpen(true)}>Cart</button>
+      </div>
+      <div className="appUL">
         {products.map(product => <Card key={product.sku} product={product} addToCart={addToCart} />)}
-      </ul>
+      </div>
     </div>
   )
 };

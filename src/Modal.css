@@ -1,40 +1,100 @@
+.outerModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+}
+
 .modal {
     position: fixed;
-    top: 25%;
+    top: 15%;
     left: 25%;
     width:50%;
-    height: 50%;
+    height: 70%;
     background: white;
     border: 2px solid black;
     border-radius: 8px;
     z-index: 1;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+}
+
+.modalBanner {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--pastel-blue);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;   
 }
 
 .modalTitle {
-    text-align: center;
-    background-color: green;
-    margin: 0;
+    margin: 8px 8px 8px 16px;
+    flex: 1;
+    font-family: var(--title);
 }
 
 .modalCloseButton {
     width: 50px;
-    margin: 8px;
-    align-self: flex-end;
+    margin: auto 16px auto 8px;
+    height: 25px;
+}
+
+.modalContents {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+}
+.modalContentsDetails {
+    height: 100%;
+    overflow-y: auto;
 }
 
 .modalSingleItem {
     margin: 8px;
-    background-color: green;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: row;
 }
 
 .modalSingleItemImage {
-    height: 120px;
+    height: calc(100% - 16px);
     margin: 8px;
 }
-
+.modalSingleItemDetails {
+    font-family: var(--text);
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+}
+.singleItemTitle {
+    font-weight: 700;
+    margin: 0;
+}
+.singleItemSize {
+    margin: 0;
+    font-weight: 400;
+    color: gray;
+    flex: 1;
+}
+.modalSingleItemQuantity {
+    display: flex;
+    flex-direction: row;
+}
+.singleItemQuantityLabel {
+    margin: 0;
+    font-weight: 400;
+}
+.singleItemQuantityInput {
+    height: 20px;
+    width: 50px;
+    padding-left: 5px;
+    margin: auto 0px auto 8px;
+}
 .modalTotal {
     text-align: center;
     margin: 0;
