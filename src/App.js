@@ -1,8 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import firebase from "firebase/app"
+import "firebase/database";
+import "firebase/auth";
+
 import Card from './Card.js';
 import Modal from './Modal.js';
 import './Global.css';
 import './App.css';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDLMn3D--gZDtesqNPSlAp3uF6O_6g-z7o",
+  authDomain: "shopping-cart-fc9e9.firebaseapp.com",
+  databaseURL: "https://shopping-cart-fc9e9.firebaseio.com",
+  projectId: "shopping-cart-fc9e9",
+  storageBucket: "shopping-cart-fc9e9.appspot.com",
+  messagingSenderId: "117136358560",
+  appId: "1:117136358560:web:c92902257a31acd2f45dc5"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref();
 
 const App = () => {
 
@@ -117,7 +134,7 @@ const App = () => {
       const json = await response.json();
       setData(json);
 
-      const inventoryResponse = await fetch('./data/inventory.json');
+      const inventoryResponse = await fetch('https://shopping-cart-fc9e9.firebaseio.com/');
       const inventoryJSON = await inventoryResponse.json();
 
       const tempStock = [];
