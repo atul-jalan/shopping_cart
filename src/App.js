@@ -128,20 +128,24 @@ const App = () => {
 
   const [data, setData] = useState({});
   const products = Object.values(data);
+  
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch('./data/products.json');
       const json = await response.json();
       setData(json);
 
-      const inventoryResponse = await fetch('https://shopping-cart-fc9e9.firebaseio.com/');
-      const inventoryJSON = await inventoryResponse.json();
-
-      const tempStock = [];
-      for(var keys in inventoryJSON){
-        tempStock.push([keys, [inventoryJSON[keys].S, inventoryJSON[keys].M, inventoryJSON[keys].L, inventoryJSON[keys].XL]])
-      }
-      setInventory(tempStock);
+      const HandleData = snap => {
+        if (snap.val()) {
+          const inventoryJSON = snap.val();
+          const tempStock = [];
+          for(var keys in inventoryJSON){
+            tempStock.push([keys, [inventoryJSON[keys].S, inventoryJSON[keys].M, inventoryJSON[keys].L, inventoryJSON[keys].XL]])
+          }
+          setInventory(tempStock);
+        }
+      };
+      db.on("value", HandleData, error => alert(error));
     };
     fetchProducts();
   }, []);
