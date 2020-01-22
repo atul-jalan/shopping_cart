@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Modal.css';
 
-const Modal = ({setCartIsOpen, cartItems, total, setNewQuantity}) => {
+const Modal = ({setCartIsOpen, cartItems, total, setNewQuantity, BeginCheckout}) => {
     return (
         <div className="outerModal">
             <div className="modal">
@@ -12,7 +12,7 @@ const Modal = ({setCartIsOpen, cartItems, total, setNewQuantity}) => {
                 <div className="modalContents">
                     {cartItems.map(cartItem => <SingleItem key={cartItem[0].sku} item={cartItem} setNewQuantity={setNewQuantity} />)}
                 </div>
-                <h1 className="modalTotal">Total: {total}</h1>
+                <button className="checkoutButton" onClick={() => BeginCheckout()}>Checkout - Total: ${total}</button>
             </div>
         </div>
     )

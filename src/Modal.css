@@ -99,3 +99,19 @@
     text-align: center;
     margin: 0;
 }
+
+.checkoutButton {
+    align-self: center;
+    margin: 8px;
+    border: none;
+    border-radius: 4px;
+    width: 250px;
+    height: 50px;
+    font-size: 18px;
+    background-color: var(--darker-blue);
+    color: white;
+}
+.checkoutButton:hover {
+    background-color: var(--text-color);
+    transition: .1s background-color linear;
+}

@@ -168,10 +168,37 @@ const App = () => {
     fetchProducts();
   }, []);
 
+  const BeginCheckout = () => {
+    if (total === 0){
+      return window.alert('Error: Cannot checkout with nothing in cart.');
+    }
+    for (let i = 0; i < cartItems.length; i++){
+      if (cartItems[i][1] === 'Small'){
+        db.child(cartItems[i][0].sku).child('S').transaction(function(search) {
+          return search - cartItems[i][2];
+        });
+      } else if (cartItems[i][1] === 'Medium'){
+        db.child(cartItems[i][0].sku).child('M').transaction(function(search) {
+          return search - cartItems[i][2];
+        });
+      } else if (cartItems[i][1] === 'Large'){
+        db.child(cartItems[i][0].sku).child('L').transaction(function(search) {
+          return search - cartItems[i][2];
+        });
+      } else if (cartItems[i][1] === 'Extra Large'){
+        db.child(cartItems[i][0].sku).child('XL').transaction(function(search) {
+          return search - cartItems[i][2];
+        });
+      }
+    }
+    window.alert('Successfully purchased items!');
+    window.location.reload(true);
+  }
+
   return (
     <div>
       { user ? <p/> : <SignIn /> }
-      {cartIsOpen === true ? <Modal setCartIsOpen={setCartIsOpen} cartItems={cartItems} total={total} setNewQuantity={setNewQuantity} />:null}
+      {cartIsOpen === true ? <Modal setCartIsOpen={setCartIsOpen} cartItems={cartItems} total={total} setNewQuantity={setNewQuantity} BeginCheckout={BeginCheckout} />:null}
 
       <div className="appBanner">
         <h1 className="appBannerTitle">Jalan Cart{user !== null ? ", welcome " + user.displayName:", Please login in order to shop."}</h1>
