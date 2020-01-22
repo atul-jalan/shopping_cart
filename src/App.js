@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import firebase from "firebase/app"
 import "firebase/database";
 import "firebase/auth";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
 
 import Card from './Card.js';
 import Modal from './Modal.js';
@@ -18,11 +20,27 @@ const firebaseConfig = {
   appId: "1:117136358560:web:c92902257a31acd2f45dc5"
 };
 
+const uiConfig = {
+  signInFlow: 'popup',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  callbacks: {
+    signInSuccessWithAuthResult: () => false
+  }
+};
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database().ref();
 
 const App = () => {
 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(setUser);
+  }, []);
+  
   const [cartIsOpen, setCartIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]); // made up of [product, size, num]
   const [total, setTotal] = useState(0);
@@ -152,10 +170,12 @@ const App = () => {
 
   return (
     <div>
+      { user ? <p/> : <SignIn /> }
       {cartIsOpen === true ? <Modal setCartIsOpen={setCartIsOpen} cartItems={cartItems} total={total} setNewQuantity={setNewQuantity} />:null}
 
       <div className="appBanner">
-        <h1 className="appBannerTitle">Jalan Cart</h1>
+        <h1 className="appBannerTitle">Jalan Cart{user !== null ? ", welcome " + user.displayName:", Please login in order to shop."}</h1>
+        {user!== null && <button className="openModalButton" onClick={() => firebase.auth().signOut()}>Logout</button>}
         <button className="openModalButton" onClick={() => cartIsOpen === true ? setCartIsOpen(false):setCartIsOpen(true)}>Cart</button>
       </div>
       <div className="appUL">
@@ -164,5 +184,12 @@ const App = () => {
     </div>
   )
 };
+
+const SignIn = () => (
+  <StyledFirebaseAuth
+    uiConfig={uiConfig}
+    firebaseAuth={firebase.auth()}
+  />
+);
 
 export default App;
